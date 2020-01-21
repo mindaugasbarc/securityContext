@@ -26,9 +26,9 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationProcessingF
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws AuthenticationException, IOException, ServletException {
-        final String param = ofNullable(httpServletRequest.getHeader(AUTHORIZATION)).orElse(httpServletRequest.getParameter("t"));
+        final String authToken = ofNullable(httpServletRequest.getHeader(AUTHORIZATION)).orElse(httpServletRequest.getParameter("t"));
 
-        final String token = ofNullable(param)
+        final String token = ofNullable(authToken)
                 .map(value -> removeStart(value, BEARER))
                 .map(String::trim)
                 .orElseThrow(() -> new BadCredentialsException("Missing Authentication Token"));
